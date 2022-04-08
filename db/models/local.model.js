@@ -1,49 +1,49 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const CATEGORY_TABLE = 'categories';
+const LOCAL_TABLE = 'locales';
 
-const CategorySchema = {
+const LocalSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  name: {
+  nombre: {
     type: DataTypes.STRING,
     unique: true,
     allowNull: false,
   },
-  image: {
+  direccion: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  createdAt: {
+  fechaCreacion: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'created_at',
+    field: 'fecha_creacion',
     defaultValue: Sequelize.NOW,
-  },
+  }
 }
 
 
-class Category extends Model {
+class Local extends Model {
 
   static associate(models) {
-    this.hasMany(models.Product, {
-      as: 'products',
-      foreignKey: 'categoryId'
+    this.hasOne(models.Gerencia, {
+      as: 'gerencia',
+      foreignKey: 'idLocal'
     });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: CATEGORY_TABLE,
-      modelName: 'Category',
+      tableName: LOCAL_TABLE,
+      modelName: 'Local',
       timestamps: false
     }
   }
 }
 
-module.exports = { Category, CategorySchema, CATEGORY_TABLE };
+module.exports = { Local, LocalSchema, LOCAL_TABLE };
